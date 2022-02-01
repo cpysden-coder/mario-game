@@ -35,7 +35,7 @@ class Player {
 
         if (this.position.y + this.height + this.velocity.y <= canvas.height) this.velocity.y += gravity
         else this.velocity.y = 0
-    }
+   }
 }
 
 class Platform {
@@ -67,6 +67,11 @@ const keys = {
     }
 }
 
+//track player movement to determine game over scenario
+let scrollOffset = 0;
+
+
+//animate function
 function animate() {
     requestAnimationFrame(animate)
     c.clearRect(0, 0, canvas.width, canvas.height)
@@ -84,11 +89,13 @@ function animate() {
     } else {
         player.velocity.x = 0;
         if (keys.right.pressed) {
+            scrollOffset += 5;
             platforms.forEach(platform => {
                 platform.position.x -= 5
             })
 
         } else if (keys.left.pressed) {
+            scrollOffset -= 5;
             platforms.forEach(platform => {
                 platform.position.x += 5
             })
@@ -101,6 +108,9 @@ function animate() {
             player.velocity.y = 0;
         }
     })
+    if(scrollOffset > 2000){
+        console.log("CONGRATULATIONS!! YOU WIN!!")
+    }
 }
 animate()
 
